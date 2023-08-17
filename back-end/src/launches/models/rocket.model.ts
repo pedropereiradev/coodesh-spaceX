@@ -6,9 +6,6 @@ export class Rocket extends Document {
   @Prop({ type: Types.ObjectId })
   _id: Types.ObjectId;
 
-  @Prop({ type: Types.ObjectId })
-  rocketId: Types.ObjectId;
-
   @Prop()
   name: string;
 }

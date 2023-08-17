@@ -8,9 +8,6 @@ export class Launch extends Document {
   _id: Types.ObjectId;
 
   @Prop()
-  launchId: string;
-
-  @Prop()
   flightNumber: number;
 
   @Prop()
@@ -22,8 +19,11 @@ export class Launch extends Document {
   @Prop()
   dateUtc: string;
 
-  @Prop({ type: [Types.ObjectId], ref: Rocket.name })
-  rocket: Types.ObjectId;
+  @Prop({ type: Types.ObjectId, ref: Rocket.name })
+  rocket: Rocket;
+
+  @Prop({ type: Types.ObjectId })
+  rocketId: Types.ObjectId;
 
   @Prop()
   result: boolean;
