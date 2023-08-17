@@ -31,7 +31,7 @@ export class LaunchesService {
       .find({ ...searchQuery })
       .limit(Number(paginationData.limit))
       .skip(offset)
-      .populate('rocket', ['name']);
+      .populate('rocket');
 
     return {
       result,

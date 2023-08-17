@@ -22,9 +22,6 @@ export class Launch extends Document {
   @Prop({ type: Types.ObjectId, ref: Rocket.name })
   rocket: Rocket;
 
-  @Prop({ type: Types.ObjectId })
-  rocketId: Types.ObjectId;
-
   @Prop()
   result: boolean;
 

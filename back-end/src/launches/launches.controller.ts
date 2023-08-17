@@ -8,8 +8,6 @@ export class LaunchesController {
 
   @Get()
   async findAll(@Query() paginationData: PaginationQueryDto) {
-    console.log({ paginationData });
-
     return this.launchService.findAll(paginationData);
   }
 }
