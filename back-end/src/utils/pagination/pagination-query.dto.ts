@@ -1,39 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNumberString, IsString } from 'class-validator';
 
 export class PaginationQueryDto {
   @IsString()
-  @IsOptional()
   @ApiProperty({ required: false })
-  search?: string = '';
+  search: string = '';
 
-  @IsNumber()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  limit?: number = 4;
+  @IsNumberString()
+  @ApiProperty({ required: true })
+  limit: string = '4';
 
-  @IsNumber()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  totalDocs?: number = null;
-
-  @IsNumber()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  page?: number = 1;
-
-  @IsNumber()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  totalPages?: number = 1;
-
-  @IsBoolean()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  hasNext?: boolean = false;
-
-  @IsBoolean()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  hasPrev?: boolean = false;
+  @IsNumberString()
+  @ApiProperty({ required: true })
+  page: string = '1';
 }
