@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateLaunchDto } from './dto/create-launch.dto';
-import { UpdateLaunchDto } from './dto/update-launch.dto';
 import { PaginationQueryDto } from 'src/utils/pagination/pagination-query.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Launch } from './models/launch.model';
@@ -14,55 +12,50 @@ export class LaunchesService {
     @InjectModel(Rocket.name) private rocketModel: Model<Rocket>,
   ) {}
 
-  // async create(createLaunchDto: CreateLaunchDto) {
-  //   return 'This action adds a new launch';
-  // }
-
   async findAll(paginationData: PaginationQueryDto) {
     const searchQuery = paginationData.search
-      ? {
-          $or: [
-            { result: new RegExp(paginationData.search, 'i') },
-            { missionName: new RegExp(paginationData.search, 'i') },
-          ],
-        }
+      ? { missionName: new RegExp(paginationData.search, 'i') }
       : {};
 
-    const totalDocs = await this.launchModel.find().estimatedDocumentCount();
-    const totalPages = Math.ceil(totalDocs / paginationData.limit);
-    const hasNext = paginationData.page === totalPages;
-    const hasPrev = paginationData.page === 1;
+    const totalDocs = await this.launchModel
+      .find({ ...searchQuery })
+      .countDocuments();
+    const totalPages = Math.ceil(totalDocs / Number(paginationData.limit));
+    const hasNext = Number(paginationData.page) !== totalPages;
+    const hasPrev = Number(paginationData.page) !== 1;
 
-    const offset = paginationData.limit * paginationData.page;
+    const offset =
+      Number(paginationData.limit) * (Number(paginationData.page) - 1);
 
     const result = await this.launchModel
       .find({ ...searchQuery })
-      .limit(paginationData.limit)
+      .limit(Number(paginationData.limit))
       .skip(offset)
-      .populate(Rocket.name);
+      .populate('rocket', ['name']);
 
     return {
       result,
 
       totalDocs,
-      page: paginationData.page,
+      page: Number(paginationData.page),
       totalPages,
       hasNext,
       hasPrev,
     };
   }
 
-  async getStats() {}
+  async successAndFailureLaunches() {
+    const success = await this.launchModel
+      .find({ result: true })
+      .countDocuments();
 
-  // async findOne(id: number) {
-  //   return `This action returns a #${id} launch`;
-  // }
+    const failure = await this.launchModel
+      .find({ result: false })
+      .countDocuments();
 
-  // async update(id: number, updateLaunchDto: UpdateLaunchDto) {
-  //   return `This action updates a #${id} launch`;
-  // }
-
-  // async remove(id: number) {
-  //   return `This action removes a #${id} launch`;
-  // }
+    return {
+      success,
+      failure,
+    };
+  }
 }
