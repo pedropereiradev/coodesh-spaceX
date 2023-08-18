@@ -2,13 +2,16 @@
 
 import { CloseIcon } from '@/common/icons/closeIcon';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { FormEvent, useCallback, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useCallback, useState } from 'react';
+import { debounce } from 'lodash';
 
 function SearchBar() {
   const router = useRouter();
   const params = useSearchParams();
 
   const [search, setSearch] = useState('');
+
+  const debounceFn = useCallback(debounce(handleDebounceFn, 500), []);
 
   const handleSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
@@ -21,10 +24,25 @@ function SearchBar() {
 
       router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/?${queryParams}`);
 
-      setSearch('')
+      setSearch('');
     },
     [params, router, search]
   );
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+
+    debounceFn(event.target.value);
+  };
+
+  function handleDebounceFn(searchedTerm: string) {
+    const queryParams = new URLSearchParams({
+      page: params.get('page') || '1',
+      search: searchedTerm,
+    });
+
+    router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/?${queryParams}`);
+  }
 
   const handleClearSearch = () => {
     const queryParams = new URLSearchParams({
@@ -33,6 +51,7 @@ function SearchBar() {
     });
 
     router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/?${queryParams}`);
+    setSearch('')
   };
 
   return (
@@ -46,7 +65,7 @@ function SearchBar() {
             type="text"
             id="search"
             value={search}
-            onChange={(event) => setSearch(event.target.value)}
+            onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             placeholder="Digite a missão a ser buscada"
           />
@@ -67,7 +86,7 @@ function SearchBar() {
           <button
             onClick={handleClearSearch}
             type="button"
-            className="inline-flex items-center p-1 ml-2 text-sm text-gray-400 bg-transparent rounded-sm hover:bg-gray-200 hover:text-gray-900"
+            className="inline-flex items-center p-1 ml-2 text-sm text-gray-500 bg-transparent rounded-sm hover:bg-gray-200 hover:text-gray-900"
             data-dismiss-target="#searchedTerm"
             aria-label="Remove"
           >
