@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import mongoose, { Model, ObjectId } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Launch } from 'src/launches/models/launch.model';
 import { Rocket } from 'src/launches/models/rocket.model';
 
