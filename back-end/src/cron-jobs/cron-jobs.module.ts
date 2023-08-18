@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { CronJobsService } from './cron-jobs.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Launch, LaunchSchema } from 'src/launches/models/launch.model';
-import { Rocket, RocketSchema } from 'src/launches/models/rocket.model';
+import { Launch, LaunchSchema } from 'src/launch/models/launch.model';
+import { Rocket, RocketSchema } from 'src/launch/models/rocket.model';
 import { HttpModule } from '@nestjs/axios';
 
 @Module({

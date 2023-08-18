@@ -4,8 +4,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { AxiosResponse } from 'axios';
 import mongoose, { Model } from 'mongoose';
 import { Command, CommandRunner } from 'nest-commander';
-import { Launch } from 'src/launches/models/launch.model';
-import { Rocket } from 'src/launches/models/rocket.model';
+import { Launch } from 'src/launch/models/launch.model';
+import { Rocket } from 'src/launch/models/rocket.model';
 
 @Command({
   name: 'seeds',
