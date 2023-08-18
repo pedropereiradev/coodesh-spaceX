@@ -3,6 +3,10 @@ import SearchBar from './components/SearchBar';
 import Pagination from './components/Pagination';
 import MobileLaunchView from './components/MobileLaunchView';
 import DesktopLaunchView from './components/DesktopLaunchView';
+import { IStats } from '@/common/types/stats';
+import dynamic from 'next/dynamic';
+
+const Charts = dynamic(() => import('./components/Charts'), { ssr: false });
 
 interface Props {
   searchParams: {
@@ -32,10 +36,27 @@ export default async function Home({ searchParams }: Props) {
     }
   }
 
+  async function getStats(): Promise<IStats> {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/launch/stats`
+      );
+
+      return res.json();
+    } catch (err) {
+      console.log(err);
+      return {} as IStats;
+    }
+  }
+
   const launchData = await getLaunches();
+  const stats = await getStats();
 
   return (
     <main className="">
+      <section className="container mx-auto">
+        <Charts launchesByYear={stats.launchesByYear} launchesByRocket={ stats.launchesByRocket } />
+      </section>
       <section className="container mx-auto px-4">
         <h2 className="mb-2 font-medium text-gray-900 text-center">
           Registro de Lançamentos
