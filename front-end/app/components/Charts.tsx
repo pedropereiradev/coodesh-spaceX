@@ -73,7 +73,7 @@ function Charts({ launchesByRocket, launchesByYear }: Props) {
         <h2 className="mb-2 font-medium text-gray-900 text-center">
           Lançamentos de foguetes
         </h2>
-        <PieChart width={400} height={400}>
+        <PieChart width={300} height={300}>
           <Pie
             data={launchesByRocket}
             dataKey="count"
@@ -97,8 +97,8 @@ function Charts({ launchesByRocket, launchesByYear }: Props) {
           Lançamentos por ano
         </h2> 
         <BarChart
-          width={400}
-          height={400}
+          width={300}
+          height={300}
           data={formattedLaunchesByYear}
           margin={{
             top: 5,
