@@ -78,3 +78,7 @@ Obs: Caso esteja no diretório do backend, retorne para o principal utilizando `
 
 - Acesse a URL `http://localhost:3000`
 
+
+## Documentação da API
+
+Após instalar e executar a aplicação, é possível visualizar a documentação da API acessando `http://localhost:3001/api`
