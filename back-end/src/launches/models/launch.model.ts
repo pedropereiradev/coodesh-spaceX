@@ -38,3 +38,10 @@ export class Launch extends Document {
 export type LaunchDocument = Launch & Document;
 
 export const LaunchSchema = SchemaFactory.createForClass(Launch);
+
+LaunchSchema.virtual('rocketData', {
+  ref: Rocket.name,
+  localField: 'rocket',
+  foreignField: '_id',
+  justOne: true,
+});

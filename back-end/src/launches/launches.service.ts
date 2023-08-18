@@ -44,6 +44,18 @@ export class LaunchesService {
     };
   }
 
+  async getStats() {
+    const launchesByYear = await this.launchesByRocketByYear();
+    const results = await this.successAndFailureLaunches();
+    const launchesByRocket = await this.launchesByRocket();
+
+    return {
+      launchesByYear,
+      launchesByRocket,
+      ...results,
+    };
+  }
+
   async successAndFailureLaunches() {
     const success = await this.launchModel
       .find({ result: true })
@@ -57,5 +69,98 @@ export class LaunchesService {
       success,
       failure,
     };
+  }
+
+  private async launchesByRocket() {
+    const launches = await this.launchModel.aggregate([
+      {
+        $lookup: {
+          from: 'rockets',
+          as: 'rocket',
+          foreignField: '_id',
+          localField: 'rocket',
+        },
+      },
+      {
+        $group: {
+          _id: {
+            rocket: '$rocket.name',
+          },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          rocket: { $arrayElemAt: ['$_id.rocket', 0] },
+          count: 1,
+        },
+      },
+      {
+        $sort: {
+          rocketName: 1,
+        },
+      },
+    ]);
+
+    return launches;
+  }
+
+  private async launchesByRocketByYear() {
+    const launches = await this.launchModel.aggregate([
+      { $addFields: { launchDate: { $toDate: '$dateUtc' } } },
+      {
+        $lookup: {
+          from: 'rockets',
+          as: 'rocket',
+          foreignField: '_id',
+          localField: 'rocket',
+        },
+      },
+      {
+        $unwind: '$rocket',
+      },
+      {
+        $project: {
+          dateUtc: 1,
+          launchDate: 1,
+          rocketName: '$rocket.name',
+        },
+      },
+      {
+        $group: {
+          _id: {
+            year: { $year: '$launchDate' },
+            rocketName: '$rocketName',
+          },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $group: {
+          _id: '$_id.year',
+          rockets: {
+            $push: {
+              rocket: '$_id.rocketName',
+              count: '$count',
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          year: '$_id',
+          rockets: '$rockets',
+        },
+      },
+      {
+        $sort: {
+          year: 1,
+        },
+      },
+    ]);
+
+    return launches;
   }
 }
