@@ -9,8 +9,6 @@ interface Props {
 }
 
 function DesktopLaunchView({ data }: Props) {
-  console.log({ data });
-
   return (
     <div className="relative overflow-x-auto shadow-md">
       <table className="w-full text-sm text-left text-gray-500">
