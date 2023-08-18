@@ -1,17 +1,13 @@
 export const CloseIcon = () => (
   <svg
-    className="w-2 h-2"
-    aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 14 14"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
   >
     <path
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-    />
+      fill="rgba(0, 0, 0, 1)"
+      d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z"
+    ></path>
   </svg>
 );
