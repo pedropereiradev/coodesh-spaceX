@@ -1,18 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { PaginationQueryDto } from 'src/utils/pagination/pagination-query.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Launch } from './models/launch.model';
+import { Launch } from '../launch/models/launch.model';
 import { Model } from 'mongoose';
-import { Rocket } from './models/rocket.model';
+import { Rocket } from '../launch/models/rocket.model';
+import { ILaunch, ILaunches } from '../launch/interfaces/launch';
+import { IStats } from '../launch/interfaces/stats';
 
 @Injectable()
-export class LaunchesService {
+export class LaunchService {
   constructor(
     @InjectModel(Launch.name) private launchModel: Model<Launch>,
     @InjectModel(Rocket.name) private rocketModel: Model<Rocket>,
   ) {}
 
-  async findAll(paginationData: PaginationQueryDto) {
+  async findAll(paginationData: PaginationQueryDto): Promise<ILaunches> {
     const searchQuery = paginationData.search
       ? { missionName: new RegExp(paginationData.search, 'i') }
       : {};
@@ -27,7 +29,7 @@ export class LaunchesService {
     const offset =
       Number(paginationData.limit) * (Number(paginationData.page) - 1);
 
-    const result = await this.launchModel
+    const result: ILaunch[] = await this.launchModel
       .find({ ...searchQuery })
       .sort({ flightNumber: 1 })
       .limit(Number(paginationData.limit))
@@ -45,7 +47,7 @@ export class LaunchesService {
     };
   }
 
-  async getStats() {
+  async getStats(): Promise<IStats> {
     const launchesByYear = await this.launchesByRocketByYear();
     const results = await this.successAndFailureLaunches();
     const launchesByRocket = await this.launchesByRocket();
