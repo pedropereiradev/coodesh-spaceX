@@ -6,11 +6,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { SeedsModule } from './seeds/seeds.module';
 import { CronJobsModule } from './cron-jobs/cron-jobs.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.MONGO_URI),
+    ScheduleModule.forRoot(),
     LaunchesModule,
     SeedsModule,
     CronJobsModule,
