@@ -32,7 +32,7 @@ function Pagination({ pagination }: Props) {
 
   return (
     <section className="flex flex-col items-center md:flex-row md:justify-end gap-2 mb-10">
-      <div className="text-sm text-gray-700 dark:text-gray-400">
+      <div className="text-sm text-gray-700">
         Visualizando{' '}
         <span className="text-gray-900">{pagination.page * 5 - 4}</span> a{' '}
         <span className="text-gray-900">{pagination.page * 5}</span> de{' '}
@@ -43,8 +43,10 @@ function Pagination({ pagination }: Props) {
         <button
           onClick={handlePrevPage}
           disabled={!pagination.hasPrev}
-          className={`flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-700 rounded-l hover:bg-gray-100 ${
-            !pagination.hasPrev && 'cursor-not-allowed text-gray-300'
+          className={`flex items-center justify-center px-3 h-8 text-sm font-medium rounded-l hover:bg-gray-100 ${
+            !pagination.hasPrev
+              ? 'cursor-not-allowed text-gray-300'
+              : 'text-gray-700'
           }`}
         >
           <ArrowLeft
@@ -56,7 +58,9 @@ function Pagination({ pagination }: Props) {
           onClick={handleNextPage}
           disabled={!pagination.hasNext}
           className={`flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-700 rounded-l hover:bg-gray-100 ${
-            !pagination.hasNext && 'cursor-not-allowed text-gray-300'
+            !pagination.hasNext
+              ? 'cursor-not-allowed text-gray-300'
+              : 'text-gray-700'
           }`}
         >
           Próxima
