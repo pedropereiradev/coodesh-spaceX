@@ -4,7 +4,14 @@ import Pagination from './components/Pagination';
 import MobileLaunchView from './components/MobileLaunchView';
 import DesktopLaunchView from './components/DesktopLaunchView';
 
-export default async function Home({ searchParams }) {
+interface Props {
+  searchParams: {
+    search: string;
+    page: string;
+  };
+}
+
+export default async function Home({ searchParams }: Props) {
   async function getLaunches(): Promise<ILaunches> {
     try {
       const queryParams = new URLSearchParams({
