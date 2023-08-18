@@ -5,6 +5,11 @@
 O objetivo deste desafio consiste em desenvolver uma aplicação Fullstack com os dados de lançamentos de missões espacias da Space X.
 
 
+## Demonstração
+
+[Vídeo](https://www.loom.com/embed/14f609cfa1404af090be1aa504930efb) demonstrando o funcionamento da aplicação.
+
+
 ## Stack utilizada
 
 **Front-end:** React, Next, TailwindCSS, Recharts Typescript, lodash, date-fns
