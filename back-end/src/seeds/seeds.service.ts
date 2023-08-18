@@ -56,7 +56,7 @@ export class SeedsService extends CommandRunner {
           logo: launch.links.patch.small,
           missionName: launch.name,
           dateUtc: launch.date_utc,
-          rocketId: new mongoose.mongo.ObjectId(launch.rocket),
+          rocket: new mongoose.mongo.ObjectId(launch.rocket),
           result: launch.success,
           webcast: launch.links.webcast,
           isReused: launch.cores[0].reused,
