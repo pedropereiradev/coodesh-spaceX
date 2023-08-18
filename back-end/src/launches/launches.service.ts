@@ -29,6 +29,7 @@ export class LaunchesService {
 
     const result = await this.launchModel
       .find({ ...searchQuery })
+      .sort({ flightNumber: 1 })
       .limit(Number(paginationData.limit))
       .skip(offset)
       .populate('rocket');
