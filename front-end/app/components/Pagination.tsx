@@ -31,7 +31,7 @@ function Pagination({ pagination }: Props) {
   };
 
   return (
-    <section className="flex flex-col items-center md:flex-row md:justify-end gap-2">
+    <section className="flex flex-col items-center md:flex-row md:justify-end gap-2 mb-10">
       <div className="text-sm text-gray-700 dark:text-gray-400">
         Visualizando{' '}
         <span className="text-gray-900">{pagination.page * 5 - 4}</span> a{' '}
