@@ -55,7 +55,23 @@ export default async function Home({ searchParams }: Props) {
   return (
     <main className="">
       <section className="container mx-auto">
-        <Charts launchesByYear={stats.launchesByYear} launchesByRocket={ stats.launchesByRocket } />
+        <Charts
+          launchesByYear={stats.launchesByYear}
+          launchesByRocket={stats.launchesByRocket}
+        />
+        <section className="flex flex-col items-center my-3 border rounded-md mx-auto py-4">
+          <section className="text-gray-700">
+            <h2 className="mb-2 font-medium text-gray-900">
+              Resultado de Lançamento
+            </h2>
+            <p className="pl-2">
+              Sucesso: <span className="text-green-400">{stats.success}</span>
+            </p>
+            <p className="pl-2">
+              Falhas: <span className="text-red-400">{stats.failure}</span>
+            </p>
+          </section>
+        </section>
       </section>
       <section className="container mx-auto px-4">
         <h2 className="mb-2 font-medium text-gray-900 text-center">
